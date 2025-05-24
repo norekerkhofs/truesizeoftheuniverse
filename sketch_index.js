@@ -89,7 +89,7 @@ function setup() {
       radius: 8,
       speed: 0.3,
       targetSpeed: 0.2,
-      url: "x", // https://github.com/norekerkhofs
+      url: "https://github.com/norekerkhofs/truesizeoftheuniverse", 
     },
     {
       label: "Contact",
