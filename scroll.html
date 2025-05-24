@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="scroll.css" />
+    <title>True Size — A Scroll through the Solar System</title>
+  </head>
+  <body>
+    <div class="sun-wrapper">
+      <div class="sun">
+        <span class="sun-label">Center of the Sun</span>
+        <div class="cross"></div>
+      </div>
+    </div>
+
+    <a
+      href="index.html"
+      class="back-button"
+      aria-label="Return to landing page"
+    ></a>
+
+    <button id="scroll-toggle">Scroll at the speed of light</button>
+
+    <div id="grand-scrollbar">
+      <div id="grand-progress"></div>
+    </div>
+    <div id="local-scrollbar">
+      <div id="local-progress"></div>
+    </div>
+    <span id="local-labels">Sun ↑<br />Mercury ↓</span>
+
+    <div class="distance-counter">
+      <span id="distance-counter">Distance from the Sun: </span>
+      <span class="counter-value" id="distance-value">0 km</span>
+    </div>
+
+    <div class="light-counter">
+      <span id="light-counter">Light travel time:</span>
+      <span class="counter-value" id="light-value">0.00 sec</span>
+    </div>
+
+    <div class="next-planet-counter">
+      <span id="next-planet-counter">Distance to Mercury:</span>
+      <span class="counter-value" id="next-value">57,909,000 km </span>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const grandScrollbar = document.getElementById("grand-scrollbar");
+        const grandProgress = document.getElementById("grand-progress");
+
+        const localScrollbar = document.getElementById("local-scrollbar");
+        const localProgress = document.getElementById("local-progress");
+
+        let isDragging = false;
+        let activeScrollbar = null;
+
+        // Handle mousedown on either scrollbar
+        function onScrollbarMouseDown(e, scrollbar) {
+          isDragging = true;
+          activeScrollbar = scrollbar;
+          updateScrollFromClick(e, scrollbar);
+        }
+
+        // Event listeners for both scrollbars
+        grandScrollbar.addEventListener("mousedown", (e) =>
+          onScrollbarMouseDown(e, grandScrollbar)
+        );
+        localScrollbar.addEventListener("mousedown", (e) =>
+          onScrollbarMouseDown(e, localScrollbar)
+        );
+
+        // Mouse move and up
+        window.addEventListener("mousemove", (e) => {
+          if (isDragging && activeScrollbar) {
+            updateScrollFromClick(e, activeScrollbar);
+          }
+        });
+
+        window.addEventListener("mouseup", () => {
+          isDragging = false;
+          activeScrollbar = null;
+        });
+
+        // Shared function to calculate and set scroll position
+        function updateScrollFromClick(e, scrollbar) {
+          const rect = scrollbar.getBoundingClientRect();
+          const clickY = e.clientY - rect.top;
+          const clickRatio = clickY / rect.height;
+
+          const currentScroll = window.scrollY;
+
+          if (scrollbar.id === "grand-scrollbar") {
+            // Scroll entire page
+            const maxScrollY = document.body.scrollHeight - window.innerHeight;
+            const targetScrollY = maxScrollY * clickRatio;
+            window.scrollTo(0, targetScrollY);
+          } else if (scrollbar.id === "local-scrollbar") {
+            // Scroll only between current and next planet
+            let previousPlanet = { name: "Sun", distance: 0 };
+            let nextPlanet = planets[0];
+            for (let i = 0; i < planets.length; i++) {
+              if (planets[i].distance > currentScroll) {
+                nextPlanet = planets[i];
+                break;
+              }
+              previousPlanet = planets[i];
+            }
+
+            const planetRange = nextPlanet.distance - previousPlanet.distance;
+            const relativeScrollY =
+              previousPlanet.distance + planetRange * clickRatio;
+
+            window.scrollTo(0, relativeScrollY);
+          }
+
+          console.log("Dragging:", scrollbar.id);
+        }
+
+        const scaleFactor = 1.2;
+
+        const planets = [
+          {
+            name: "Mercury",
+            size: 10 / scaleFactor,
+            distance: 237361 / scaleFactor,
+          },
+          {
+            name: "Venus",
+            size: 24.8 / scaleFactor,
+            distance: 443538 / scaleFactor,
+          },
+          {
+            name: "Earth",
+            size: 26.1 / scaleFactor,
+            distance: 613181 / scaleFactor,
+          },
+          {
+            name: "Mars",
+            size: 13.9 / scaleFactor,
+            distance: 934360 / scaleFactor,
+          },
+          {
+            name: "Jupiter",
+            size: 286.6 / scaleFactor,
+            distance: 3190880 / scaleFactor,
+          },
+          {
+            name: "Saturn",
+            size: 238.7 / scaleFactor,
+            distance: 5869742 / scaleFactor,
+          },
+          {
+            name: "Uranus",
+            size: 103.9 / scaleFactor,
+            distance: 11751621 / scaleFactor,
+          },
+          {
+            name: "Neptune",
+            size: 100.9 / scaleFactor,
+            distance: 18506181 / scaleFactor,
+          },
+        ];
+
+        const sun = document.querySelector(".sun"); // Reference to the Sun
+
+        planets.forEach((planet) => {
+          let planetDiv = document.createElement("div");
+          planetDiv.classList.add("planet", planet.name);
+          planetDiv.style.width = `${planet.size}px`;
+          planetDiv.style.height = `${planet.size}px`;
+          planetDiv.style.borderRadius = "50%";
+          planetDiv.style.backgroundColor = "white";
+          planetDiv.style.position = "absolute";
+          planetDiv.style.top = `calc(50% + ${planet.distance}px)`;
+          planetDiv.style.left = "50%";
+          planetDiv.style.transform = "translate(-50%, -50%)";
+
+          // Create label
+          let label = document.createElement("span");
+          label.classList.add("planet-label");
+          label.textContent = planet.name;
+          planetDiv.appendChild(label);
+
+          // Append to body
+          document.body.appendChild(planetDiv);
+        });
+
+        // Set body height for scrolling to Neptune
+        function calculateBottomPadding() {
+          if (window.innerWidth < 600) {
+            return 750; // mobile
+          } else if (window.innerWidth < 1600) {
+            return 1000; // laptop
+          } else {
+            return 1400; // large screens
+          }
+        }
+
+        const bottomPadding = calculateBottomPadding();
+        document.body.style.height = `${
+          18506181 / scaleFactor + bottomPadding
+        }px`;
+
+        const distanceValue = document.getElementById("distance-value");
+        const nextValue = document.getElementById("next-value");
+        const lightValue = document.getElementById("light-value");
+
+        // Scroll Distance Counter
+        const distanceCounter = document.getElementById("distance-counter");
+        const nextPlanetCounter = document.getElementById(
+          "next-planet-counter"
+        );
+        const pxToKmRatio = 243.9701552 * scaleFactor;
+
+        let lastScrollY = 0;
+
+        function formatNumber(num) {
+          return Math.floor(num).toLocaleString(); // Formats number with commas
+        }
+
+        function formatLightTime(seconds) {
+          const pad = (num) => String(num).padStart(2, "0");
+
+          if (seconds < 60) {
+            return `${seconds.toFixed(2)} sec`;
+          } else if (seconds < 3600) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${pad(mins)} min ${secs.toFixed(2).padStart(5, "0")} sec`;
+          } else {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            return `${pad(hrs)} h ${pad(mins)} min ${secs
+              .toFixed(2)
+              .padStart(5, "0")} sec`;
+          }
+        }
+
+        function updateDistance() {
+          let scrollPx = window.scrollY;
+          let distanceKm = scrollPx * pxToKmRatio;
+
+          // Light speed in km/s
+          const speedOfLight = 299792.458; // km/s
+          let lightTimeSec = distanceKm / speedOfLight;
+
+          // Find the next planet
+          let nextPlanet = planets.find((p) => p.distance > scrollPx);
+          let distanceToNextKm = nextPlanet
+            ? (nextPlanet.distance - scrollPx) * pxToKmRatio
+            : 0;
+
+          // Update sun distance counter
+          document.getElementById(
+            "distance-value"
+          ).textContent = `${formatNumber(distanceKm)} km`;
+
+          document.getElementById(
+            "next-planet-counter"
+          ).textContent = `Distance to ${nextPlanet.name}:`;
+
+          if (distanceToNextKm < 5000 && nextPlanet.name === "Neptune") {
+            document.getElementById("next-value").textContent = "0 km";
+          } else {
+            document.getElementById("next-value").textContent = `${formatNumber(
+              distanceToNextKm
+            )} km`;
+          }
+
+          // Update light time
+          document.getElementById(
+            "light-value"
+          ).textContent = `${formatLightTime(lightTimeSec)}`;
+
+          lastScrollY = scrollPx;
+        }
+
+        const localLabels = document.getElementById("local-labels");
+
+        const maxScroll = 18506181 / scaleFactor; // Maximum scroll value (Neptune's position)
+
+        function updateScrollbars() {
+          let scrollPx = window.scrollY;
+          let scrollPercentage = (scrollPx / maxScroll) * 100;
+
+          // Grand System Progress
+          grandProgress.style.height = `${scrollPercentage}%`;
+
+          // Default values
+          let previousPlanet = { name: "Sun", distance: 0 }; // Always start with Sun
+          let nextPlanet = planets[0]; // First planet (Mercury)
+
+          // Loop through planets to find the correct next and previous planets
+          for (let i = 0; i < planets.length; i++) {
+            if (planets[i].distance > scrollPx) {
+              nextPlanet = planets[i];
+              break;
+            }
+            previousPlanet = planets[i]; // Only update if we have passed this planet
+          }
+
+          // Distance relative to previous & next planet
+          let range = nextPlanet.distance - previousPlanet.distance;
+          let relativeScroll =
+            ((scrollPx - previousPlanet.distance) / range) * 100;
+
+          localProgress.style.height = `${Math.max(
+            0,
+            Math.min(100, relativeScroll)
+          )}%`;
+          localLabels.innerHTML = `${previousPlanet.name} ↑<br>${nextPlanet.name} ↓`;
+        }
+
+        window.addEventListener("scroll", () => {
+          updateDistance();
+          updateScrollbars();
+        });
+
+        // Auto scrolling
+        let autoScroll = false; // Track scrolling state
+        let scrollSpeed = 1226.88; // px per second (calculated)
+        let scrollInterval;
+
+        const scrollButton = document.getElementById("scroll-toggle");
+
+        function startAutoScroll() {
+          if (autoScroll) return; // Prevent multiple intervals
+
+          autoScroll = true;
+          scrollButton.textContent = "Stop Scrolling at the speed of light";
+
+          scrollInterval = setInterval(() => {
+            if (
+              window.scrollY + window.innerHeight >=
+              document.body.scrollHeight
+            ) {
+              stopAutoScroll(); // Stop if we reach the bottom
+            } else {
+              window.scrollBy(0, scrollSpeed / 60); // Divide by 60 for per-frame smoothness
+            }
+          }, 1000 / 60); // 60 FPS scrolling
+        }
+
+        function stopAutoScroll() {
+          autoScroll = false;
+          clearInterval(scrollInterval);
+          scrollButton.textContent = "Scroll at the speed of light";
+        }
+
+        scrollButton.addEventListener("click", () => {
+          if (autoScroll) {
+            stopAutoScroll();
+          } else {
+            startAutoScroll();
+          }
+        });
+      });
+
+      //Create Note
+      const note1 = document.createElement("text");
+      note1.id = "note1-done";
+      note1.textContent =
+        "You have reached Neptune, the outer most planet of our solar system.";
+      const note2 = document.createElement("text");
+      note2.id = "note2-done";
+      note2.textContent = "Thanks for you patience.";
+
+      // Create the Back to Top button
+      const backToTopBtn = document.createElement("button");
+      backToTopBtn.id = "back-to-top";
+      backToTopBtn.textContent = "↑ Back to Top ↑";
+
+      // Add hover effect with JS (optional)
+      backToTopBtn.addEventListener("mouseenter", () => {
+        backToTopBtn.style.color = "rgb(255,20,0)";
+      });
+      backToTopBtn.addEventListener("mouseleave", () => {
+        backToTopBtn.style.color = "white";
+      });
+
+      // Scroll to top when clicked
+      backToTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+
+      // Append the button to the body
+      document.body.appendChild(note1);
+      document.body.appendChild(note2);
+
+      document.body.appendChild(backToTopBtn);
+
+      sessionStorage.setItem("returningFromProject", "true");
+    </script>
+  </body>
+</html>

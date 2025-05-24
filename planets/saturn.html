@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planeten pad Genk — AR Zon</title>
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <link rel="stylesheet" href="second.css" />
+    <script src="sketch_orbit.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <model-viewer
+        src="/3d files/saturnus.glb"
+        camera-orbit="0deg 90deg 110%"
+        camera-controls
+        interaction-prompt="none"
+        ar
+      >
+      </model-viewer>
+    </div>
+    <div class="button">
+      <a href="/walk.html">Back to overview</a>
+      <div class="instructions">
+        <p>
+          <span class="label">Rotate:</span>
+          <span class="action">Click and drag</span>
+        </p>
+        <p>
+          <span class="label">Zoom:</span>
+          <span class="action">Scroll or pinch</span>
+        </p>
+        <p>
+          <span class="label">Pan:</span>
+          <span class="action">Right-click and drag</span>
+        </p>
+      </div>
+    </div>
+    <div class="inclination">
+      <p>
+        This celestial object has an inclination of
+        <span class="highlight orbit">26.73</span>
+        degrees.
+      </p>
+    </div>
+    <div class="terug">
+      <a href="jupiter.html">Walk 202,6 meters back to Jupiter</a>
+    </div>
+    <div class="volgend">
+      <a href="uranus.html">Walk 445,0 meters to Uranus</a>
+    </div>
+    <img src="/src/qr-code-saturn.svg" alt="QR code to mobile" />
+    <div class="stand">
+      <p>Scan for Augmented Reality</p>
+    </div>
+  </body>
+</html>

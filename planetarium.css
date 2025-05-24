@@ -1,0 +1,124 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: black;
+}
+
+.back-button {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  top: 20px;
+  left: 20px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: rgb(255, 20, 0);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  z-index: 100;
+  display: block;
+}
+
+.back-button:hover {
+  transform: scale(1.1);
+  background-color: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 120px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ff0a00;
+  border: 2px solid #ff0a00;
+  /* margin-top: -3px; */
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #ff0a00;
+}
+
+.custom-checkbox {
+  font-family: "Helvetica", sans-serif !important;
+  font-size: 14px !important;
+  color: white !important;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  accent-color: rgb(255, 10, 0);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.custom-checkbox label {
+  cursor: pointer;
+}
+
+.custom-reset {
+  padding: 0.5em 0.5em 0.25em 0em;
+  background-color: black;
+  font-size: 14px !important;
+  color: #ffffff;
+  border: none;
+  text-decoration: underline;
+}
+
+.custom-reset:hover {
+  color: rgb(255, 20, 0);
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .custom-checkbox input[type="checkbox"] {
+    width: 12px;
+    height: 12px;
+  }
+  .custom-checkbox {
+    font-size: 12px !important;
+  }
+
+  .custom-reset {
+    font-size: 12px !important;
+  }
+}
+
+@media (min-width: 1600px) {
+  .custom-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+  .custom-checkbox {
+    font-size: 16px !important;
+  }
+
+  .custom-reset {
+    font-size: 16px !important;
+  }
+  .back-button {
+    width: 40px;
+    height: 40px;
+  }
+}

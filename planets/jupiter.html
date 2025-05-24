@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planeten pad Genk — AR Zon</title>
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <script src="sketch_orbit.js"></script>
+    <link rel="stylesheet" href="second.css" />
+  </head>
+  <body>
+    <div class="container">
+      <model-viewer
+        src="/3d files/jupiter test.glb"
+        ios-src="/3d files/jupiter.usdz"
+        camera-orbit="0deg 90deg 110%"
+        camera-controls
+        interaction-prompt="none"
+        ar
+        exposure="0.002"
+      >
+      </model-viewer>
+    </div>
+    <div class="button">
+      <a href="/walk.html">Back to overview</a>
+      <div class="instructions">
+        <p>
+          <span class="label">Rotate:</span>
+          <span class="action">Click and drag</span>
+        </p>
+        <p>
+          <span class="label">Zoom:</span>
+          <span class="action">Scroll or pinch</span>
+        </p>
+        <p>
+          <span class="label">Pan:</span>
+          <span class="action">Right-click and drag</span>
+        </p>
+      </div>
+    </div>
+    <div class="inclination">
+      <p>
+        This celestial object has an inclination of
+        <span class="highlight orbit">3.13</span>
+        degrees.
+      </p>
+    </div>
+    <div class="terug">
+      <a href="mars.html">Walk 170,7 meters back to Mars</a>
+    </div>
+    <div class="volgend">
+      <a href="saturn.html">Walk 202,6 meters to Saturn</a>
+    </div>
+    <img src="/src/qr-code-jupiter.svg" alt="QR code to mobile" />
+    <div class="stand">
+      <p>Scan for Augmented Reality</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>True Size — An AR Walk through the Solar System</title>
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <link rel="stylesheet" href="walk.css" />
+  </head>
+  <body>
+    <a
+      href="index.html"
+      class="back-button"
+      aria-label="Return to landing page"
+    ></a>
+    <div class="container">
+      <div class="lijst">
+        <a href="/planets/sun.html">Sun</a>
+        <a href="/planets/mercury.html">Mercury</a>
+        <a href="/planets/venus.html">Venus</a>
+        <a href="/planets/earth.html">Earth</a>
+        <a href="/planets/mars.html">Mars</a>
+        <a href="/planets/jupiter.html">Jupiter</a>
+        <a href="/planets/saturn.html">Saturn</a>
+        <a href="/planets/uranus.html">Uranus</a>
+        <a href="/planets/neptune.html">Neptune</a>
+        <img src="/src/qr-code.svg" alt="QR code to mobile" />
+        <p>Scan for Augmented Reality</p>
+      </div>
+      <div class="preview">
+        <a href="planets/sun.html" class="sun-preview">
+          <model-viewer src="/3d files/zon.glb" camera-orbit="0deg 90deg 110%">
+          </model-viewer
+        ></a>
+        <a href="planets/mercury.html" id="drop">
+          <model-viewer
+            src="/3d files/mercurius.glb"
+            camera-orbit="0deg 90deg 110%"
+          >
+          </model-viewer
+        ></a>
+        <a href="planets/venus.html" id="drop">
+          <model-viewer
+            src="/3d files/venus.glb"
+            camera-orbit="0deg 90deg 110%"
+          >
+          </model-viewer
+        ></a>
+        <a href="planets/earth.html" id="drop">
+          <model-viewer
+            src="/3d files/earth.glb"
+            camera-orbit="0deg 90deg 110%"
+          >
+          </model-viewer
+        ></a>
+        <a href="planets/mars.html" id="drop">
+          <model-viewer src="/3d files/mars.glb" camera-orbit="0deg 90deg 110%">
+          </model-viewer
+        ></a>
+        <a href="planets/jupiter.html" id="drop">
+          <model-viewer
+            src="/3d files/jupiter.glb"
+            camera-orbit="0deg 90deg 110%"
+          >
+          </model-viewer
+        ></a>
+        <a href="planets/saturn.html" id="drop">
+          <model-viewer
+            src="/3d files/saturnus.glb"
+            camera-orbit="0deg 90deg 110%"
+          >
+          </model-viewer
+        ></a>
+        <a href="planets/uranus.html" id="drop">
+          <model-viewer
+            src="/3d files/uranus.glb"
+            camera-orbit="0deg 90deg 110%"
+          >
+          </model-viewer
+        ></a>
+        <a href="planets/neptune.html" id="drop">
+          <model-viewer
+            src="/3d files/neptunus.glb"
+            camera-orbit="0deg 90deg 110%"
+          >
+          </model-viewer
+        ></a>
+      </div>
+    </div>
+    <script>
+      sessionStorage.setItem("returningFromProject", "true");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,179 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: black;
+  font-size: 14px;
+  height: 100dvh;
+  width: 100dvw;
+  overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: white;
+  padding: 0.75em;
+  padding-left: 0.25em;
+  margin-left: 20px;
+}
+
+a:hover {
+  color: rgb(255, 20, 0);
+}
+
+.container {
+  display: flex;
+  width: 100vw;
+  height: 100dvh;
+}
+
+.lijst {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 1.5em; /* use padding, not margin */
+  width: 15vw;
+  height: 100vh;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+.lijst p {
+  position: relative;
+  color: white;
+  padding: 0.75em 0.25em 0.25em 0.25em;
+  margin-left: 20px;
+  width: 100%;
+}
+
+.lijst img {
+  align-self: flex-start;
+  margin-left: 20px;
+  margin-top: 4em;
+}
+
+.preview {
+  display: grid;
+  width: 100vw;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.preview a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* or set a fixed height if you prefer */
+  padding: 0;
+}
+
+model-viewer {
+  margin: 0;
+  height: 100%;
+}
+
+model-viewer::part(default-ar-button) {
+  display: hidden;
+}
+
+.back-button {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  top: 20px;
+  left: 20px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: rgb(255, 20, 0);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  z-index: 100;
+  display: block;
+}
+
+.back-button:hover {
+  transform: scale(1.1);
+  background-color: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+img {
+  height: 80px;
+}
+
+p {
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .lijst {
+    height: 100%;
+  }
+
+  .lijst a {
+    font-size: 12px;
+    z-index: 99;
+  }
+
+  #drop {
+    display: none;
+  }
+
+  .container {
+    display: inline;
+    height: 100dvh;
+    width: 100vw;
+  }
+
+  .preview a {
+    z-index: 1;
+  }
+
+  .sun-preview model-viewer {
+    position: absolute;
+    left: -150px;
+    top: -380px;
+    height: 200%;
+    width: 200%;
+    /* object-fit: contain; */
+    z-index: 1;
+  }
+
+  .sun-preview {
+    pointer-events: none;
+  }
+
+  img,
+  p {
+    display: none;
+  }
+}
+
+@media (min-width: 1600px) {
+  .lijst a {
+    font-size: 16px;
+  }
+  .back-button {
+    width: 40px;
+    height: 40px;
+  }
+  body {
+    height: 100dvh;
+    width: 100dvw;
+    overflow: hidden;
+  }
+
+  img {
+    height: 100px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}

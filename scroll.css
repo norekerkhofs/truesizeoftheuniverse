@@ -1,0 +1,434 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+html,
+body {
+  width: 100dvw;
+  background-color: black;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Grand System Scroll Bar */
+#grand-scrollbar {
+  position: fixed;
+  right: 5px;
+  top: 50%;
+  width: 10px;
+  height: 99dvh;
+  background: rgba(130, 130, 130, 0.5);
+  border-radius: 5px;
+  transform: translateY(-50%);
+  cursor: grab;
+}
+
+#grand-progress {
+  width: 100%;
+  height: 0%;
+  background: rgb(255, 20, 0);
+  border-radius: 5px;
+  transition: height 0.1s ease-out;
+}
+
+/* Local Scroll Bar */
+#local-scrollbar {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  width: 10px;
+  height: 99dvh;
+  background: rgba(130, 130, 130, 0.5);
+  border-radius: 5px;
+  transform: translateY(-50%);
+  cursor: grab;
+}
+
+#local-progress {
+  width: 100%;
+  height: 0%;
+  background: rgb(255, 20, 0);
+  border-radius: 5px;
+  transition: height 0.1s ease-out;
+}
+
+/* Labels for Local Scroll */
+#local-labels {
+  position: fixed; /* changed from absolute */
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none; /* remove debug background */
+  color: white;
+  mix-blend-mode: difference;
+  padding: 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  text-align: right;
+  z-index: 1000;
+}
+
+.sun-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 2400px; /* match or slightly exceed sun's size */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sun {
+  background-color: white;
+  height: 2375.8px; /* 2851 px / 1.2 */
+  width: 2375.8px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* Prevents accidental selection */
+  overflow-x: hidden;
+}
+
+.sun-label {
+  color: black;
+  font-size: 14px;
+  text-align: center;
+  position: absolute;
+  top: 48.8%;
+  left: 53%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.cross {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px; /* Adjust thickness */
+  height: 30px;
+  transform: translate(-50%, -50%);
+}
+
+.cross::before,
+.cross::after {
+  content: "";
+  position: absolute;
+  background-color: black;
+}
+
+.cross::before {
+  width: 30px; /* Horizontal leg length */
+  height: 2px; /* Thickness */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cross::after {
+  width: 2px; /* Thickness */
+  height: 30px; /* Vertical leg length */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: rgb(255, 20, 0);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  z-index: 100;
+  display: block;
+}
+
+.back-button:hover {
+  transform: scale(1.1);
+  background-color: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+#scroll-toggle {
+  position: fixed;
+  top: 20px;
+  right: 50px;
+  padding: 10px;
+  font-size: 14px;
+  background: none;
+  color: white;
+  mix-blend-mode: difference;
+  border: none;
+  cursor: pointer;
+  transition: 0.1s;
+  text-decoration: underline;
+}
+
+#scroll-toggle:hover {
+  color: rgb(255, 20, 0);
+  mix-blend-mode: normal;
+}
+
+.distance-counter {
+  font-size: 14px;
+  color: white;
+  background: none;
+}
+
+#distance-counter {
+  position: fixed;
+  top: 20px;
+  left: 40%;
+  /* transform: translate(-50%, 0); */
+  mix-blend-mode: difference;
+  padding: 10px;
+}
+
+#distance-value {
+  position: fixed;
+  top: 20px;
+  right: 40%;
+  padding: 10px;
+}
+
+.light-counter {
+  font-size: 14px;
+  color: white;
+  background: none;
+}
+
+#light-counter {
+  position: fixed;
+  top: 45px;
+  left: 40%;
+  padding: 10px;
+  /* transform: translate(-50%, 0); */
+  mix-blend-mode: difference;
+}
+
+#light-value {
+  position: fixed;
+  top: 45px;
+  right: 40%;
+  padding: 10px;
+}
+
+.next-planet-counter {
+  font-size: 14px;
+  color: white;
+  background: none;
+}
+
+#next-planet-counter {
+  position: fixed;
+  bottom: 20px;
+  left: 40%;
+  mix-blend-mode: difference;
+  padding: 10px;
+}
+
+#next-value {
+  position: fixed;
+  bottom: 20px;
+  right: 40%;
+  padding: 10px;
+}
+
+.planet {
+  position: absolute;
+  border-radius: 50%;
+  background-color: white;
+  transform: translate(-50%, -50%);
+}
+
+.planet-label {
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.counter-value {
+  color: rgb(255, 20, 0);
+}
+
+#back-to-top {
+  position: absolute;
+  text-decoration: underline;
+  top: calc(18506181px / 1.2 + 700px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: white;
+  background-color: black;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+#note1-done {
+  position: absolute;
+  top: calc(18506181px / 1.2 + 610px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: white;
+}
+
+#note2-done {
+  position: absolute;
+  top: calc(18506181px / 1.2 + 630px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .sun-label {
+    font-size: 12px;
+    top: 48.8%;
+    left: 47.3%;
+  }
+  #local-labels,
+  #scroll-toggle,
+  .distance-counter,
+  .light-counter,
+  .next-planet-counter,
+  .planet-label,
+  #back-to-top,
+  #note1-done,
+  #note2-done {
+    font-size: 12px;
+  }
+
+  /* #scroll-toggle {
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 100vw;
+  } */
+
+  #scroll-toggle {
+    text-align: right;
+    rotate: -90deg;
+    left: 37%;
+    top: 12rem;
+    width: 100vw;
+  }
+
+  #distance-counter,
+  #light-counter,
+  #next-planet-counter {
+    left: 19%;
+  }
+
+  #distance-value,
+  #light-value,
+  #next-value {
+    right: 19%;
+  }
+
+  /* #distance-counter,
+  #distance-value {
+    top: 45px;
+  }
+
+  #light-counter,
+  #light-value {
+    top: 70px;
+  } */
+
+  #note1-done {
+    top: calc(18506181px / 1.2 + 450px);
+    text-align: center;
+  }
+
+  #note2-done {
+    top: calc(18506181px / 1.2 + 500px);
+  }
+
+  #back-to-top {
+    top: calc(18506181px / 1.2 + 600px);
+  }
+}
+
+@media (min-width: 1600px) {
+  .sun-wrapper {
+    width: 100vw;
+    height: 3900px; /* match or slightly exceed sun's size */
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .sun {
+    background-color: white;
+    height: 3500px; /* 2851 px / 1.2 */
+    width: 3500px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none; /* Prevents accidental selection */
+    overflow-x: hidden;
+  }
+
+  .sun-label,
+  #local-labels,
+  #scroll-toggle,
+  .distance-counter,
+  .light-counter,
+  .next-planet-counter,
+  .planet-label,
+  #back-to-top,
+  #note1-done,
+  #note2-done {
+    font-size: 16px;
+  }
+
+  #distance-counter,
+  #light-counter,
+  #next-planet-counter {
+    left: 43%;
+  }
+
+  #distance-value,
+  #light-value,
+  #next-value {
+    right: 43%;
+  }
+
+  .back-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  #note1-done {
+    top: calc(18506181px / 1.2 + 900px);
+    text-align: center;
+  }
+
+  #note2-done {
+    top: calc(18506181px / 1.2 + 925px);
+  }
+
+  #back-to-top {
+    top: calc(18506181px / 1.2 + 1000px);
+  }
+}
