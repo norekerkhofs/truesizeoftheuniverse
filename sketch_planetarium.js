@@ -503,6 +503,15 @@ function draw() {
     text(noticeText, width - 20, height - 10);
   }
   pop();
+
+    if (windowWidth < 830) {
+    if (showNotice) {
+      // speedSlider.hide();
+      speedSlider.style("z-index", "1");
+    } else {
+      speedSlider.style("z-index", "100");
+    }
+  }
 }
 
 function windowResized() {
