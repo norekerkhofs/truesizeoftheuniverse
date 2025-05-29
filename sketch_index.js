@@ -89,7 +89,7 @@ function setup() {
       radius: 8,
       speed: 0.3,
       targetSpeed: 0.2,
-      url: "https://github.com/norekerkhofs/truesizeoftheuniverse", 
+      url: "https://github.com/norekerkhofs/truesizeoftheuniverse",
     },
     {
       label: "Contact",
@@ -238,14 +238,20 @@ function draw() {
     ellipse(zoomTarget.x, zoomTarget.y, zoomSize);
 
     // Final transition
-    if (zoomProgress >= 1) {
+    if (zoomProgress >= 1 && zooming) {
+      zooming = false; // Prevent multiple triggers
+
       if (sunClicked === true) {
-        revealAboutPending = true; // for about section
+        revealAboutPending = true;
       } else if (zoomTarget && zoomTarget.url) {
-        // Redirect to the correct project page
-        window.location.href = zoomTarget.url;
+        if (zoomTarget.url.startsWith("http")) {
+          // External link like GitHub — open in new tab safely
+          window.open(zoomTarget.url, "_blank");
+        } else {
+          // Internal page
+          window.location.href = zoomTarget.url;
+        }
       } else {
-        zooming = false;
         console.log("Transition complete: now show project content.");
       }
     }
@@ -259,19 +265,26 @@ function draw() {
 }
 
 function mousePressed() {
-  // // Check planet clicks
+  // Check planet clicks
   for (let planet of planets) {
     let d = dist(mouseX, mouseY, planet.x, planet.y);
     if (d < planet.radius * 1.5) {
+      // External link: open immediately
+      if (planet.url.startsWith("http")) {
+        window.open(planet.url, "_blank");
+        return; // Don't continue zoom
+      }
+
+      // Internal links: use zoom transition
       zooming = true;
       zoomTarget = planet;
       zoomProgress = 0;
       sunClicked = false;
-      break;
+      return;
     }
   }
 
-  // // Check sun click
+  // Check sun click
   let d = dist(mouseX, mouseY, centerX, centerY - 30);
   if (d < sunRadius) {
     zooming = true;
